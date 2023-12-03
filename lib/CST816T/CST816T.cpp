@@ -24,9 +24,9 @@ void CST816T::begin(void)
     if (_int != -1)
     {
         pinMode(_int, OUTPUT);
-        digitalWrite(_int, HIGH); //高电平
+        digitalWrite(_int, HIGH); // 高电平
         delay(1);
-        digitalWrite(_int, LOW); //低电平
+        digitalWrite(_int, LOW); // 低电平
         delay(1);
     }
 
@@ -41,7 +41,7 @@ void CST816T::begin(void)
     }
 
     // Initialize Touch
-    i2c_write(0xFE, 0XFF); //禁止自动进入低功耗模式。
+    i2c_write(0xFE, 0XFF); // 禁止自动进入低功耗模式。
 }
 
 bool CST816T::getTouch(uint16_t *x, uint16_t *y, uint8_t *gesture)
@@ -56,7 +56,7 @@ bool CST816T::getTouch(uint16_t *x, uint16_t *y, uint8_t *gesture)
     }
 
     uint8_t data[4];
-    i2c_read_continuous(0x03,data,4);
+    i2c_read_continuous(0x03, data, 4);
     *x = ((data[0] & 0x0f) << 8) | data[1];
     *y = ((data[2] & 0x0f) << 8) | data[3];
 
@@ -83,14 +83,16 @@ uint8_t CST816T::i2c_read(uint8_t addr)
 
 uint8_t CST816T::i2c_read_continuous(uint8_t addr, uint8_t *data, uint32_t length)
 {
-  Wire.beginTransmission(I2C_ADDR_CST816T);
-  Wire.write(addr);
-  if ( Wire.endTransmission(true))return -1;
-  Wire.requestFrom(I2C_ADDR_CST816T, length);
-  for (int i = 0; i < length; i++) {
-    *data++ = Wire.read();
-  }
-  return 0;
+    Wire.beginTransmission(I2C_ADDR_CST816T);
+    Wire.write(addr);
+    if (Wire.endTransmission(true))
+        return -1;
+    Wire.requestFrom(I2C_ADDR_CST816T, length);
+    for (int i = 0; i < length; i++)
+    {
+        *data++ = Wire.read();
+    }
+    return 0;
 }
 
 void CST816T::i2c_write(uint8_t addr, uint8_t data)
@@ -103,11 +105,17 @@ void CST816T::i2c_write(uint8_t addr, uint8_t data)
 
 uint8_t CST816T::i2c_write_continuous(uint8_t addr, const uint8_t *data, uint32_t length)
 {
-  Wire.beginTransmission(I2C_ADDR_CST816T);
-  Wire.write(addr);
-  for (int i = 0; i < length; i++) {
-    Wire.write(*data++);
-  }
-  if ( Wire.endTransmission(true))return -1;
-  return 0;
+    Wire.beginTransmission(I2C_ADDR_CST816T);
+    Wire.write(addr);
+    for (int i = 0; i < length; i++)
+    {
+        Wire.write(*data++);
+    }
+    if (Wire.endTransmission(true))
+        return -1;
+    return 0;
+}
+
+void CST816T::calibrate(uint16_t calData[])
+{
 }

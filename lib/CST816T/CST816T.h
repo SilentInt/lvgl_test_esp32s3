@@ -5,17 +5,17 @@
 
 #define I2C_ADDR_CST816T 0x15
 
-//手势
+// 手势
 enum GESTURE
 {
-    None = 0x00,       //无手势
-    SlideDown = 0x01,  //向下滑动
-    SlideUp = 0x02,    //向上滑动
-    SlideLeft = 0x03,  //向左滑动
-    SlideRight = 0x04, //向右滑动
-    SingleTap = 0x05,  //单击
-    DoubleTap = 0x0B,  //双击
-    LongPress = 0x0C   //长按
+    None = 0x00,       // 无手势
+    SlideDown = 0x01,  // 向下滑动
+    SlideUp = 0x02,    // 向上滑动
+    SlideLeft = 0x03,  // 向左滑动
+    SlideRight = 0x04, // 向右滑动
+    SingleTap = 0x05,  // 单击
+    DoubleTap = 0x0B,  // 双击
+    LongPress = 0x0C   // 长按
 };
 
 /**************************************************************************/
@@ -30,10 +30,11 @@ public:
 
     void begin(void);
     bool getTouch(uint16_t *x, uint16_t *y, uint8_t *gesture);
+    void calibrate(uint16_t calData[]);
 
 private:
     int8_t _sda, _scl, _rst, _int;
-
+    uint16_t _calData[4];
     uint8_t i2c_read(uint8_t addr);
     uint8_t i2c_read_continuous(uint8_t addr, uint8_t *data, uint32_t length);
     void i2c_write(uint8_t addr, uint8_t data);
